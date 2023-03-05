@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>设计模式——六大原则 | 樱花盛开的海港</title><meta name="author" content="Minos"><meta name="copyright" content="Minos"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="设计模式——六大原则 ¶1. 单一职责原则（Single Responsibility Principle，SRP）  定义：就一个类而言，应该仅有一个引起它变化的原因  程序最终期望实现的是高内聚，低耦合，而内聚就体现在这里 就像一个团体一样，既然赋予了它姓名，那么参与者们就都有着相似的特征，并且内部的设施都是为此而服务的 拿足球俱乐部举个例子，其实可以把它当成是一个类，那么里面的人，可以看做是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式——六大原则">
+<meta property="og:url" content="http://example.com/2022/07/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/index.html">
+<meta property="og:site_name" content="樱花盛开的海港">
+<meta property="og:description" content="设计模式——六大原则 ¶1. 单一职责原则（Single Responsibility Principle，SRP）  定义：就一个类而言，应该仅有一个引起它变化的原因  程序最终期望实现的是高内聚，低耦合，而内聚就体现在这里 就像一个团体一样，既然赋予了它姓名，那么参与者们就都有着相似的特征，并且内部的设施都是为此而服务的 拿足球俱乐部举个例子，其实可以把它当成是一个类，那么里面的人，可以看做是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207031102130.jpeg">
+<meta property="article:published_time" content="2022-07-03T02:52:07.473Z">
+<meta property="article:modified_time" content="2022-07-03T03:03:22.079Z">
+<meta property="article:author" content="Minos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207031102130.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/07/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '设计模式——六大原则',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-03 11:03:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207031102130.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">樱花盛开的海港</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">设计模式——六大原则</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-03T02:52:07.473Z" title="发表于 2022-07-03 10:52:07">2022-07-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-03T03:03:22.079Z" title="更新于 2022-07-03 11:03:22">2022-07-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="设计模式——六大原则"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>设计模式——六大原则</h1>
+<h2 id="1-单一职责原则（Single-Responsibility-Principle，SRP）"><a class="header-anchor" href="#1-单一职责原则（Single-Responsibility-Principle，SRP）">¶</a>1. 单一职责原则（Single Responsibility Principle，SRP）</h2>
+<blockquote>
+<p>定义：就一个类而言，应该<strong>仅有一个引起它变化的原因</strong></p>
+</blockquote>
+<p>程序最终期望实现的是<strong>高内聚，低耦合</strong>，而内聚就体现在这里</p>
+<p>就像一个团体一样，既然赋予了它姓名，那么参与者们就都有着相似的特征，并且内部的设施都是为此而服务的</p>
+<p>拿足球俱乐部举个例子，其实可以把它当成是一个类，那么里面的人，可以看做是类的成员，比如：球员、教练、队医、司机</p>
+<p>而各种设施也是围着球队工作，可以把它们当做是类的方法，比如：球场集体训练、健身房强化锻炼、更衣室冲澡这些都是为这个整体服务，与足球俱乐部这个集体紧密相关</p>
+<p>因此，在<strong>代码层面上的表现</strong>就是：这个类有着<strong>相关性很高的函数（Method）以及数据（Field）</strong></p>
+<p>然而<strong>相关性这一点其实界限很模糊</strong>，因此这往往就依赖于开发者自身理解和工作经验了（）</p>
+<h2 id="2-开闭原则（Open-Close-Principle，OCP）"><a class="header-anchor" href="#2-开闭原则（Open-Close-Principle，OCP）">¶</a>2. 开闭原则（Open Close Principle，OCP）</h2>
+<p>这是Java世界里<strong>最基础</strong>的设计原则</p>
+<blockquote>
+<p>定义：软件中的对象（类、模块、函数等）应对于扩展开放，但是对于修改是封闭的</p>
+</blockquote>
+<p>我认为，这可以理解成对现有的逻辑代码的一种保护，因为现有功能是稳定的，后期的修改应当尽量避免引入新的问题</p>
+<p>当然，在某种程度上，这也显得较为理想化，实际的开发过程却难免会因产品快速迭代与变更需要修改原有内容</p>
+<p>因此，在代码层面为避免引入更多的问题，可以尽量选择扩展，也方便他人对已有内容进行实现</p>
+<h2 id="3-里式替换原则（Liskov-Substitution-Priciple，LSP）"><a class="header-anchor" href="#3-里式替换原则（Liskov-Substitution-Priciple，LSP）">¶</a>3. 里式替换原则（Liskov Substitution Priciple，LSP）</h2>
+<blockquote>
+<p>定义：所有引用基类的地方必须能透明地使用其子类的对象</p>
+</blockquote>
+<p>里氏替换原则主要就是依赖于面向对象语言三大特性中的<strong>继承与多态</strong></p>
+<p>简单点说，就是父类出现的地方统统可以使用其子类进行替代，并且能够正常工作</p>
+<p>有点前人栽树，后人乘凉的意味</p>
+<p>而里氏替换原则的核心则是<strong>抽象</strong></p>
+<p>仅仅需要对应的对象最低限度啊满足它的职责（接口或抽象类的定义）</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>代码重用，减少创建类的成本，每个子类都拥有父类的方法和属性</li>
+<li>子类满足与父类的共性，同时又拥有自身的个性</li>
+<li>提高了代码的可扩展性</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>继承是侵入性的，只要继承就必须拥有父类的所有属性和方法</li>
+<li>子类代码可能冗余，灵活性下降，因为不可避免地拥有父类的属性和方法</li>
+</ul>
+<p>里氏接口替换原则往往和开闭原则紧密相关，很好地支持外部自定义的操作</p>
+<h2 id="4-依赖倒置原则（Dependence-Inversion-Principle，DIP）"><a class="header-anchor" href="#4-依赖倒置原则（Dependence-Inversion-Principle，DIP）">¶</a>4. 依赖倒置原则（Dependence Inversion Principle，DIP）</h2>
+<blockquote>
+<p>定义：依赖倒置原则体现的是一种特定的<strong>解耦方式</strong>，使得高层模块不依赖于底层模块的实现细节</p>
+</blockquote>
+<p>定义看上去很模糊，因此需要根据实际场景进行分解</p>
+<p>首先，有以下关键点需要注意：</p>
+<ul>
+<li>高层模块不应依赖于低层模块，二者应该都依赖于<strong>抽象</strong></li>
+<li>抽象不依赖细节</li>
+<li>细节应当依赖抽象</li>
+</ul>
+<p>如果从Java语言的角度进行理解，抽象无非就是以<strong>接口或者抽象类的形式</strong>进行体现的，主要目的是<strong>明确职责</strong></p>
+<p>所谓<strong>抽象正是代表了一种形式上的东西，需要遵守</strong></p>
+<p>另一方面，细节体现的是<strong>接口的实现类或者是抽象类的实体子类</strong>，它们在<strong>遵守形式的基础上</strong>真正地去<strong>履行自己的职责</strong></p>
+<p>这样，后两条就很清晰了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220702122051298.png" alt="image-20220702122051298"></p>
+<p>再举个例子，人类可以认为是一个抽象的概念，如果简单点进行定义，可以只有名字、年龄，能吃能睡，这里用了抽象类进行表示</p>
+<p>而程序员，依赖人类的身份（对于People抽象类进行实现），首先履行了人类职责，拥有吃、睡的传统艺能（从父类继承而来），还会敲代码，并且还有账户（另外加的）</p>
+<p>程序员对于吃和睡<strong>有实实在在的行动，而非只是标签</strong>：抢消费券点外卖吃，半夜回家倒头就睡（这便是对于细节的描述）</p>
+<p>而对于第一点，首先要注意<strong>高层次模块和低层次模块的含义</strong></p>
+<p>当一个项目增长到一定的量级，往往会对于其功能进行拆分，以明确代码的职责，也方便业务的扩展和梳理逻辑，减少问题</p>
+<p>通常会将具体业务代码，根据其实现的业务功能进行划分，比如说网络模块、即时通信模块、通用工具模块、线上课程模块等</p>
+<p>越位于下层的模块其本身的独立程度越高，比如通用工具模块，它们作为<strong>功能实现端</strong>，给其他模块调用，就像平时功能不好实现时上github找包一样，只需要关注需要用到的方法，因为具体的功能下层已经实现了（工具已经有了，看你上层怎么用）</p>
+<p>而<strong>上层与下层的关系往往是相对的</strong>，因为你是用东西的人，你的地位高一些，但是更上层还会有人等待着你提供服务</p>
+<p>因此，上层相<strong>对于低层次是调用方</strong></p>
+<p>现在二者都依赖于抽象的意思，如果用Java语言理解，那么应该就是<strong>二者通过接口或抽象类进行交互，而不是直接进行调用</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220702224416704.png" alt="image-20220702224416704"></p>
+<p>原先高层直接调用低层，这就不得不让上层每次都亲自出马（上层主动依赖）</p>
+<p>而现在，上层给了标准，需要人办事，下级直接按标准对号入座，所谓关注结果（上层提供标准，下层实现标准）</p>
+<p>实现<strong>面向接口编程</strong></p>
+<h2 id="5-接口隔离原则（Interface-Segregation-Principle，ISP）"><a class="header-anchor" href="#5-接口隔离原则（Interface-Segregation-Principle，ISP）">¶</a>5. 接口隔离原则（Interface Segregation Principle，ISP）</h2>
+<blockquote>
+<p>定义：类间的依赖关系应该建立在最小的接口上</p>
+</blockquote>
+<p>该原则也仅仅围绕<strong>抽象</strong></p>
+<p>也就是说，对于某一类操作进行调用，那么取能够适配更多的接口，作为参数</p>
+<p>这样，其他实现该接口的类可以直接使用，遵循<strong>里氏替换原则</strong>，而无需关注内部的细节</p>
+<p>接口隔离的目的是<strong>使系统解开耦合，从而容易重构、更改和重新部署</strong></p>
+<p>在Android中，Context经常会被用到，而Activity和Fragment等都是对于Context的某种实现，因此在设计方法的时候，如果需要好的兼容性，并且Activity和Fragment的作用可以用Context替代的话，那么就把Context类型作为参数，因为它是更高层次的抽象，能够应用更多的场景，而无需为每个类型单独考虑</p>
+<p>就像你去公司或健身房一样，门禁并不关注你是谁，男的还是女的，只关注你有没有卡或者录入人脸，因为对于门禁来讲，谁来都一样，没有必要量身定制</p>
+<h2 id="6-迪米特原则（Law-of-Demeter，LOD）"><a class="header-anchor" href="#6-迪米特原则（Law-of-Demeter，LOD）">¶</a>6. 迪米特原则（Law of Demeter，LOD）</h2>
+<blockquote>
+<p>定义：一个对象应该对其他对象有最少的了解</p>
+</blockquote>
+<p>其实这里主要体现出的还是一种抽象与解耦思想</p>
+<p>类与类之间不可避免地会有引用，但是只保留必要的引用</p>
+<p>这就像手机里下载App一样，只保留我们平时需要用的，其他不怎么用的可以删掉，这样才能保持系统整洁干净、易于管理</p>
+<p>并且，让专业的人做专业的事，我们只是应用的用户，功能的内部实现不关注，这便是一层抽象，回到了之前的依赖倒置原则</p>
+<p>也可以看得出，6大原则间其实也是紧密关联的</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Minos</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/07/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/">http://example.com/2022/07/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">樱花盛开的海港</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207031102130.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/09/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207090915717.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Gradle学习——Groovy基础</div></div></a></div><div class="next-post pull-right"><a href="/2022/06/19/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202206191731348.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">AIDL学习之路（一）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minos</div><div class="author-info__description">尽情享用此刻的休闲时光~~</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">设计模式——六大原则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99%EF%BC%88Single-Responsibility-Principle%EF%BC%8CSRP%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">1. 单一职责原则（Single Responsibility Principle，SRP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99%EF%BC%88Open-Close-Principle%EF%BC%8COCP%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">2. 开闭原则（Open Close Principle，OCP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%87%8C%E5%BC%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99%EF%BC%88Liskov-Substitution-Priciple%EF%BC%8CLSP%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">3. 里式替换原则（Liskov Substitution Priciple，LSP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99%EF%BC%88Dependence-Inversion-Principle%EF%BC%8CDIP%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">4. 依赖倒置原则（Dependence Inversion Principle，DIP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99%EF%BC%88Interface-Segregation-Principle%EF%BC%8CISP%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">5. 接口隔离原则（Interface Segregation Principle，ISP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%BF%AA%E7%B1%B3%E7%89%B9%E5%8E%9F%E5%88%99%EF%BC%88Law-of-Demeter%EF%BC%8CLOD%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">6. 迪米特原则（Law of Demeter，LOD）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/04/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5/" title="Rust 探索（二）—— 通用编程概念（上）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303041658787.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（二）—— 通用编程概念（上）"/></a><div class="content"><a class="title" href="/2023/03/04/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5/" title="Rust 探索（二）—— 通用编程概念（上）">Rust 探索（二）—— 通用编程概念（上）</a><time datetime="2023-03-04T08:48:12.370Z" title="发表于 2023-03-04 16:48:12">2023-03-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/24/Android%E5%BA%95%E5%B1%82%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94WindowManager/" title="Android底层分析（二）——WindowManager"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207241018177.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android底层分析（二）——WindowManager"/></a><div class="content"><a class="title" href="/2022/07/24/Android%E5%BA%95%E5%B1%82%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94WindowManager/" title="Android底层分析（二）——WindowManager">Android底层分析（二）——WindowManager</a><time datetime="2022-07-24T02:12:17.687Z" title="发表于 2022-07-24 10:12:17">2022-07-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/09/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/" title="Gradle学习——Groovy基础"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207090915717.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gradle学习——Groovy基础"/></a><div class="content"><a class="title" href="/2022/07/09/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/" title="Gradle学习——Groovy基础">Gradle学习——Groovy基础</a><time datetime="2022-07-09T01:23:27.690Z" title="发表于 2022-07-09 09:23:27">2022-07-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/" title="设计模式——六大原则"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207031102130.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模式——六大原则"/></a><div class="content"><a class="title" href="/2022/07/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/" title="设计模式——六大原则">设计模式——六大原则</a><time datetime="2022-07-03T02:52:07.473Z" title="发表于 2022-07-03 10:52:07">2022-07-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/19/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/" title="AIDL学习之路（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202206191731348.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AIDL学习之路（一）"/></a><div class="content"><a class="title" href="/2022/06/19/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/" title="AIDL学习之路（一）">AIDL学习之路（一）</a><time datetime="2022-06-19T09:29:31.942Z" title="发表于 2022-06-19 17:29:31">2022-06-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Minos</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
