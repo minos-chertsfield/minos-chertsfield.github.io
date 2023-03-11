@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>NDK（入门） | 樱花盛开的海港</title><meta name="author" content="Minos"><meta name="copyright" content="Minos"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="NDK（入门） ¶1. 使用目的  进一步提升设备性能，以降低延迟或运行游戏或物理模拟等计算密集型应用 重复使用您自己或其他开发者的 C 或 C++ 库  Android Studio原生库编译默认使用CMake，同时也支持ndk-build ¶2. 准备工作  NDK：允许在Android中使用C&#x2F;C++ CMake：外部构建工具，如果使用ndk-build，可以不需要 LLDB：原生代码调试工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NDK（入门）">
+<meta property="og:url" content="http://example.com/2023/03/05/NDK%EF%BC%88%E5%85%A5%E9%97%A8%EF%BC%89/index.html">
+<meta property="og:site_name" content="樱花盛开的海港">
+<meta property="og:description" content="NDK（入门） ¶1. 使用目的  进一步提升设备性能，以降低延迟或运行游戏或物理模拟等计算密集型应用 重复使用您自己或其他开发者的 C 或 C++ 库  Android Studio原生库编译默认使用CMake，同时也支持ndk-build ¶2. 准备工作  NDK：允许在Android中使用C&#x2F;C++ CMake：外部构建工具，如果使用ndk-build，可以不需要 LLDB：原生代码调试工">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051112376.jpeg">
+<meta property="article:published_time" content="2023-03-05T01:17:46.190Z">
+<meta property="article:modified_time" content="2022-04-05T04:35:28.000Z">
+<meta property="article:author" content="Minos">
+<meta property="article:tag" content="NDK">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051112376.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/03/05/NDK%EF%BC%88%E5%85%A5%E9%97%A8%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'NDK（入门）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-05 12:35:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051112376.jpeg')"><nav id="nav"><span id="blog-info"><a href="/" title="樱花盛开的海港"><span class="site-name">樱花盛开的海港</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">NDK（入门）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-05T01:17:46.190Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-05T04:35:28.000Z" title="更新于 2022-04-05 12:35:28">2022-04-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="NDK（入门）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>NDK（入门）</h1>
+<h2 id="1-使用目的"><a class="header-anchor" href="#1-使用目的">¶</a>1. 使用目的</h2>
+<ul>
+<li>进一步提升设备性能，以降低延迟或运行游戏或物理模拟等计算密集型应用</li>
+<li>重复使用您自己或其他开发者的 C 或 C++ 库</li>
+</ul>
+<p>Android Studio原生库编译默认使用<code>CMake</code>，同时也支持<code>ndk-build</code></p>
+<h2 id="2-准备工作"><a class="header-anchor" href="#2-准备工作">¶</a>2. 准备工作</h2>
+<ul>
+<li>NDK：允许在Android中使用C/C++</li>
+<li>CMake：外部构建工具，如果使用<code>ndk-build</code>，可以不需要</li>
+<li>LLDB：原生代码调试工具，默认AS自带</li>
+</ul>
+<p>先进到<code>SDK Manager</code>准备一下对应的工具</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490380341231649038033292.png" alt="" style="zoom:70%;" />
+<br/>
+<h2 id="3-添加原生代码"><a class="header-anchor" href="#3-添加原生代码">¶</a>3. 添加原生代码</h2>
+<h3 id="3-1-创建原生源代码文件"><a class="header-anchor" href="#3-1-创建原生源代码文件">¶</a>3.1. 创建原生源代码文件</h3>
+<p>首先，创建项目时选择<code>Native C++</code>类型</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490391141311649039113214.png" alt="" style="zoom:70%;" />
+<p>选择默认的工具链，这样可以使用默认的<code>CMake</code>配置</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490392661221649039265481.png" alt="" style="zoom:70%;" />
+<p>新的项目创建完成后，使用Android视图查看一下项目文件结构，会发现出现了一个<code>cpp</code>目录，<code>CMakeLists.txt</code>代表<code>CMake</code>的构建脚本，而另一个.cpp文件是示例代码</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490400261281649040025617.png" alt=""></p>
+<blockquote>
+<p><strong>简要分析示例</strong></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;jni.h&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; JNIEXPORT jstring JNICALL</span><br><span class="line">Java_com_minos_nativedemo_MainActivity_stringFromJNI(</span><br><span class="line">        JNIEnv* env,</span><br><span class="line">        jobject /* this */) &#123;</span><br><span class="line">    std::string hello = &quot;Hello from C++&quot;;</span><br><span class="line">    return env-&gt;NewStringUTF(hello.c_str());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是示例.cpp的代码，可以看到顶部包含了<code>jni</code>框架的头文件，下面声明的就是<code>stringFromJNI()</code>函数，大致的意思就是将该函数对外暴露，提供给Java调用</p>
+<br/>
+<p>再看下<code>CMakeLists.txt</code>中的内容</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># Creates and names a library, sets it as either STATIC</span><br><span class="line"># or SHARED, and provides the relative paths to its source code.</span><br><span class="line"># You can define multiple libraries, and CMake builds them for you.</span><br><span class="line"># Gradle automatically packages shared libraries with your APK.</span><br><span class="line"></span><br><span class="line">add_library( # Sets the name of the library.</span><br><span class="line">        nativedemo</span><br><span class="line"></span><br><span class="line">        # Sets the library as a shared library.</span><br><span class="line">        SHARED</span><br><span class="line"></span><br><span class="line">        # Provides a relative path to your source file(s).</span><br><span class="line">        native-lib.cpp)</span><br></pre></td></tr></table></figure>
+<p>就像注释里描述的那样，根据源文件的路径生成库，Gradle自动打包时会一同放入apk中</p>
+<br/>
+<p>然后来看看使用的地方，在MainActivity中会使用到里面的方法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">    <span class="comment">// Used to load the &#x27;nativedemo&#x27; library on application startup.</span></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">&quot;nativedemo&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里是初始化，放在了Activity的初始化块中，这样在应用启动时就可以调用<code>System.loadLibrary()</code>方法根据库的名称将库加载进来</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A native method that is implemented by the &#x27;nativedemo&#x27; native library,</span></span><br><span class="line"><span class="comment"> * which is packaged with this application.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">external</span> <span class="function"><span class="keyword">fun</span> <span class="title">stringFromJNI</span><span class="params">()</span></span>: String</span><br></pre></td></tr></table></figure>
+<p>这里是对于<code>JNI</code>方法的声明，在加载完库之后，就可以从中取它了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> binding: ActivityMainBinding</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line"></span><br><span class="line">    binding = ActivityMainBinding.inflate(layoutInflater)</span><br><span class="line">    setContentView(binding.root)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Example of a call to a native method</span></span><br><span class="line">        binding.sampleText.text = stringFromJNI()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用<code>ViewBinding</code>进行布局元素的操作，调用<code>stringFromJNI()</code>返回字符串，然后将内容显示到布局上</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490541765681649054175831.png" alt="" style="zoom:50%;" />
+<br/>
+<p>整体流程大致是：</p>
+<ul>
+<li>Gradle调用<code>CMakeLists.txt</code></li>
+<li><code>CMake</code>按照构建脚本中的命令将.cpp编译到共享对象库中，并命名为<code>xxx.so</code>，Gradle之后会将其一同打包到apk中（包分析器可以看到）</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490545195721649054519114.png" alt="" style="zoom:70%;" />
+<ul>
+<li>运行时，MainActivity调用<code>System.loadLibrary()</code>加载原生库</li>
+<li>在<code>onCreate()</code>中MainActivity调用<code>stringFromJNI()</code></li>
+</ul>
+<br/>
+<blockquote>
+<p>开始自定义</p>
+</blockquote>
+<p>首先需要在当前模块下有一个专门的cpp目录</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout@main/img/16490550415661649055041171.png" alt="" style="zoom:70%;" />
+<p>大概是这样的层次结构，模块 &gt; src &gt; main &gt; <strong>cpp</strong></p>
+<br/>
+<p>然后在该目录下放置C++的源代码文件</p>
+<p>接下来就是代码逻辑的编写，去实现我们需要的功能</p>
+<br/>
+<h3 id="3-2-配置CMake"><a class="header-anchor" href="#3-2-配置CMake">¶</a>3.2. 配置CMake</h3>
+<p><code>CMake</code>的构建脚本文件<code>CMakeLists.txt</code>是一个<strong>纯文本文件</strong>，并且使用它必须指定文件的名称为<strong>CMakeLists.txt</strong></p>
+<br/>
+<p>然后需要向其中添加一些需要用到的命令</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.10.2)</span><br></pre></td></tr></table></figure>
+<p>这个命令是设置了构建的最小版本，也就是下限</p>
+<br/>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">add_library(</span><br><span class="line">  nativedemo</span><br><span class="line">  SHARED</span><br><span class="line">  native-lib.cpp)</span><br></pre></td></tr></table></figure>
+<p>这里给出库的名称、类型、对应的源文件路径</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>so库的名称总是以lib&lt;CMake中定义的库名称&gt;.so出现，但是使用System.loadLibrary()时还是使用CMake中定义的名称</p>
+</blockquote>
+<br/>
+<h3 id="3-3-提供CMake脚本文件的路径配置Gradle"><a class="header-anchor" href="#3-3-提供CMake脚本文件的路径配置Gradle">¶</a>3.3. 提供CMake脚本文件的路径配置Gradle</h3>
+<p>实现Gradle关联<code>CMake</code>打包，需要在当前模块的<code>build.gradle</code>中进行一些配置</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">··android &#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        </span><br><span class="line">        ...</span><br><span class="line">        </span><br><span class="line">        externalNativeBuild &#123;</span><br><span class="line">            cmake &#123;</span><br><span class="line">                cppFlags <span class="string">&#x27;&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    externalNativeBuild &#123;</span><br><span class="line">        cmake &#123;</span><br><span class="line">            path file(<span class="string">&#x27;src/main/cpp/CMakeLists.txt&#x27;</span>)</span><br><span class="line">            version <span class="string">&#x27;3.10.2&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到需要<code>externalNativeBuild</code>块进行相关配置</p>
+<br/>
+<p>外层的主要用于与Gradle建立连接，而<code>defaultConfog</code>块内层的则进行一些可选的配置项</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Minos</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/05/NDK%EF%BC%88%E5%85%A5%E9%97%A8%EF%BC%89/">http://example.com/2023/03/05/NDK%EF%BC%88%E5%85%A5%E9%97%A8%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">樱花盛开的海港</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/NDK/">NDK</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051112376.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/05/Dart%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/" title="Dart学习笔记（二）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204122252424.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Dart学习笔记（二）</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/05/Android%E5%BA%95%E5%B1%82%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94WindowManager/" title="Android底层分析（二）——WindowManager"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207241018177.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android底层分析（二）——WindowManager</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minos</div><div class="author-info__description">尽情享用此刻的休闲时光~~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">NDK（入门）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8%E7%9B%AE%E7%9A%84"><span class="toc-number">1.1.</span> <span class="toc-text">1. 使用目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">2. 准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B7%BB%E5%8A%A0%E5%8E%9F%E7%94%9F%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">3. 添加原生代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%88%9B%E5%BB%BA%E5%8E%9F%E7%94%9F%E6%BA%90%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1. 创建原生源代码文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E9%85%8D%E7%BD%AECMake"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2. 配置CMake</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%8F%90%E4%BE%9BCMake%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9A%84%E8%B7%AF%E5%BE%84%E9%85%8D%E7%BD%AEGradle"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3. 提供CMake脚本文件的路径配置Gradle</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/11/JVM%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" title="JVM学习——Java内存区域与内存溢出异常"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303111346098.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM学习——Java内存区域与内存溢出异常"/></a><div class="content"><a class="title" href="/2023/03/11/JVM%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" title="JVM学习——Java内存区域与内存溢出异常">JVM学习——Java内存区域与内存溢出异常</a><time datetime="2023-03-11T05:23:07.957Z" title="发表于 2023-03-11 13:23:07">2023-03-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（三）—— 通用编程概念（下）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303051449595.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（三）—— 通用编程概念（下）"/></a><div class="content"><a class="title" href="/2023/03/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（三）—— 通用编程概念（下）">Rust 探索（三）—— 通用编程概念（下）</a><time datetime="2023-03-05T06:45:38.940Z" title="发表于 2023-03-05 14:45:38">2023-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/%E8%A7%86%E5%9B%BE%E7%BB%91%E5%AE%9A/" title="视图绑定"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051118172.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="视图绑定"/></a><div class="content"><a class="title" href="/2023/03/05/%E8%A7%86%E5%9B%BE%E7%BB%91%E5%AE%9A/" title="视图绑定">视图绑定</a><time datetime="2023-03-05T01:17:46.209Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/Flutter%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="Flutter学习笔记（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051120579.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Flutter学习笔记（一）"/></a><div class="content"><a class="title" href="/2023/03/05/Flutter%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="Flutter学习笔记（一）">Flutter学习笔记（一）</a><time datetime="2023-03-05T01:17:46.207Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/" title="AIDL学习之路（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202206191731348.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AIDL学习之路（一）"/></a><div class="content"><a class="title" href="/2023/03/05/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/" title="AIDL学习之路（一）">AIDL学习之路（一）</a><time datetime="2023-03-05T01:17:46.206Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Minos</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

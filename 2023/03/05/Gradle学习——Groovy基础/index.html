@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Gradle学习——Groovy基础 | 樱花盛开的海港</title><meta name="author" content="Minos"><meta name="copyright" content="Minos"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Gradle学习——Groovy基础  Groovy官方文档：The Apache Groovy programming language - Documentation (groovy-lang.org)  ¶1. 概述 借用一下Apache官方的图  大体上看，官方将Groovy描述为一个Java平台上的多面手 这里列举了很多内容，我们主要需要了解到Groovy是基于JVM的面向对象编程语言就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle学习——Groovy基础">
+<meta property="og:url" content="http://example.com/2023/03/05/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="樱花盛开的海港">
+<meta property="og:description" content="Gradle学习——Groovy基础  Groovy官方文档：The Apache Groovy programming language - Documentation (groovy-lang.org)  ¶1. 概述 借用一下Apache官方的图  大体上看，官方将Groovy描述为一个Java平台上的多面手 这里列举了很多内容，我们主要需要了解到Groovy是基于JVM的面向对象编程语言就">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207090915717.jpeg">
+<meta property="article:published_time" content="2023-03-05T01:17:46.181Z">
+<meta property="article:modified_time" content="2022-07-09T01:31:45.000Z">
+<meta property="article:author" content="Minos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207090915717.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/03/05/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gradle学习——Groovy基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-09 09:31:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207090915717.jpeg')"><nav id="nav"><span id="blog-info"><a href="/" title="樱花盛开的海港"><span class="site-name">樱花盛开的海港</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Gradle学习——Groovy基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-05T01:17:46.181Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-09T01:31:45.000Z" title="更新于 2022-07-09 09:31:45">2022-07-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Gradle/">Gradle</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Gradle学习——Groovy基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Gradle学习——Groovy基础</h1>
+<blockquote>
+<p>Groovy官方文档：<a target="_blank" rel="noopener" href="http://www.groovy-lang.org/documentation.html">The Apache Groovy programming language - Documentation (groovy-lang.org)</a></p>
+</blockquote>
+<h2 id="1-概述-v2"><a class="header-anchor" href="#1-概述-v2">¶</a>1. 概述</h2>
+<p>借用一下Apache官方的图</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703142755139.png" alt="image-20220703142755139" style="zoom:80%;" />
+<p>大体上看，官方将Groovy描述为一个<strong>Java平台上的多面手</strong></p>
+<p>这里列举了很多内容，我们主要需要了解到Groovy是<strong>基于JVM的面向对象编程语言</strong>就行了</p>
+<h2 id="2-编写与调试步骤"><a class="header-anchor" href="#2-编写与调试步骤">¶</a>2. 编写与调试步骤</h2>
+<ul>
+<li>
+<p>目录创建<code>build.gradle</code>文件</p>
+</li>
+<li>
+<p><code>build.gradle</code>文件中创建<code>task</code></p>
+</li>
+<li>
+<p><code>task</code>中用<code>Groovy</code>编写逻辑</p>
+</li>
+<li>
+<p><code>build.gradle</code>所在的目录下运行<code>gradle &lt;task名称&gt;</code></p>
+</li>
+</ul>
+<h2 id="3-变量定义"><a class="header-anchor" href="#3-变量定义">¶</a>3. 变量定义</h2>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> a = <span class="number">1</span>    <span class="comment">// 根据初始化的值，推断为int类型 </span></span><br><span class="line"><span class="type">int</span> b = <span class="number">2</span>    <span class="comment">// 指明类型为int</span></span><br><span class="line"><span class="keyword">def</span> c = <span class="string">&quot;3&quot;</span>  <span class="comment">// 推断为String</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703152340601.png" alt="image-20220703152340601"></p>
+<p>默认情况下的访问修饰符都是<code>public</code></p>
+<h2 id="4-方法定义"><a class="header-anchor" href="#4-方法定义">¶</a>4. 方法定义</h2>
+<p>与变量的定义非常类似，如果指明返回类型就可以不使用<code>def</code>，默认情况下访问修饰符类型也是<code>public</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> add(a, b) &#123;</span><br><span class="line">    println a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参数也可以不声明类型，依赖于调用的时候进行推断</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703155330059.png" alt="image-20220703155330059"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703155258563.png" alt="image-20220703155258563"></p>
+<p>调用的地方根据传入参数的类型进行了推断，确定了定义的参数类型</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> minus(a, b) &#123;</span><br><span class="line">    println a - b</span><br><span class="line">    a - b   <span class="comment">// 自动作为返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至可以在调用时不写括号</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minus a, b   <span class="comment">// 调用时可省略括号</span></span><br></pre></td></tr></table></figure>
+<p>方法体中如果没有<code>return</code>，那么<strong>最后一行内容会作为方法的返回值</strong></p>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>语句后的分号可以省略</li>
+<li>方法的括号可以省略</li>
+<li>参数类型可以省略</li>
+<li>return语句也可以省略</li>
+</ul>
+</blockquote>
+<h2 id="5-类"><a class="header-anchor" href="#5-类">¶</a>5. 类</h2>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;     <span class="comment">// 定义类</span></span><br><span class="line">    String name</span><br><span class="line">    Integer age = <span class="number">18</span></span><br><span class="line">    <span class="keyword">def</span> gender = <span class="string">&quot;male&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> sayHello() &#123;</span><br><span class="line">        println <span class="string">&quot;Hello, my name is &quot;</span> + name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> person = <span class="keyword">new</span> Person()   <span class="comment">// 实例化</span></span><br><span class="line">person.name = <span class="string">&quot;Bob&quot;</span></span><br><span class="line">person.sayHello()    </span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703165005881.png" alt="image-20220703165005881"></p>
+<p>默认的类修饰符是<code>public</code><br>
+并且没有设置可见修饰符的字段会自动生成对应的<code>setter</code>和<code>getter</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703165210941.png" alt="image-20220703165210941"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703165228971.png" alt="image-20220703165228971"></p>
+<h2 id="6-语句"><a class="header-anchor" href="#6-语句">¶</a>6. 语句</h2>
+<h3 id="6-1-断言"><a class="header-anchor" href="#6-1-断言">¶</a>6.1. 断言</h3>
+<p>首先需要注意，Groovy的断言<strong>一直处于开启状态</strong>，可以用作<strong>单元测试</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">assert</span> <span class="number">1</span> + <span class="number">1</span> == <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>这是一条简单的断言，很显然，这将会失败</p>
+<p>断言失败时，程序会抛出异常，并且中止</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703170510424.png" alt="image-20220703170510424"></p>
+<p>那么，我们根据错误去检查原因，并修复</p>
+<p>如果断言成功，并不会有什么事情发生</p>
+<h3 id="6-2-for循环"><a class="header-anchor" href="#6-2-for循环">¶</a>6.2. for循环</h3>
+<p>关于for循环，Groovy首先支持Java的<code>for(int i = 0;i &lt; N;i ++)</code>和<code>for(i in array)</code>这两种形式的循环语句</p>
+<p>另外还支持一种<code>for in loop</code>形式，能够支持多种类型的遍历</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历区间</span></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0.</span><span class="number">.5</span>) &#123;</span><br><span class="line">	println i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703173459074.png" alt="image-20220703173459074"></p>
+<p>​</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历列表</span></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>]) &#123;</span><br><span class="line">	println i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703173713089.png" alt="image-20220703173713089"></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历Map</span></span><br><span class="line"><span class="keyword">for</span> (entry <span class="keyword">in</span> [<span class="string">&#x27;9&#x27;</span> : <span class="string">&#x27;CF&#x27;</span>, <span class="string">&#x27;11&#x27;</span> : <span class="string">&#x27;RW&#x27;</span>, <span class="string">&#x27;7&#x27;</span> : <span class="string">&#x27;LF&#x27;</span>].entrySet()) &#123;</span><br><span class="line">	println entry.key + <span class="string">&#x27; : &#x27;</span> + entry.value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220703174154731.png" alt="image-20220703174154731"></p>
+<h3 id="6-3-switch语句"><a class="header-anchor" href="#6-3-switch语句">¶</a>6.3. switch语句</h3>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> response = <span class="number">500</span>  <span class="comment">// 自己可以换</span></span><br><span class="line"><span class="keyword">switch</span> (response) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">404</span>:   <span class="comment">// 单个值匹配</span></span><br><span class="line">        println <span class="string">&#x27;Not Found&#x27;</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> [<span class="number">401</span>, <span class="number">403</span>]:    <span class="comment">// 列表内容匹配</span></span><br><span class="line">        println <span class="string">&#x27;Unauthorized or Forbidden&#x27;</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">500.</span><span class="number">.505</span>:    <span class="comment">// 区间内容匹配</span></span><br><span class="line">        println <span class="string">&#x27;Server Problem&#x27;</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">200</span>:</span><br><span class="line">        println <span class="string">&#x27;OK&#x27;</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="symbol">default:</span>     </span><br><span class="line">        println <span class="string">&#x27;Other Problem&#x27;</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此以外还可以进行类型匹配，能够处理的<code>case</code>类型比较多</p>
+<h2 id="7-数据类型"><a class="header-anchor" href="#7-数据类型">¶</a>7. 数据类型</h2>
+<p>Groovy所支持的数据类型主要包括：</p>
+<ul>
+<li>Java中的基本数据类型</li>
+<li>Groovy中的容器类</li>
+<li>闭包</li>
+</ul>
+<h3 id="7-1-字符串"><a class="header-anchor" href="#7-1-字符串">¶</a>7.1. 字符串</h3>
+<p>首先，需要注意，在Groovy中有<strong>两种字符串类型</strong></p>
+<ul>
+<li>普通字符串<code>String</code></li>
+<li>插值字符串<code>GString</code></li>
+</ul>
+<h4 id="7-1-1-单引号字符串"><a class="header-anchor" href="#7-1-1-单引号字符串">¶</a>7.1.1. 单引号字符串</h4>
+<p>其实单引号和双引号都可以表示字符串，但是但因不支持插值，因此是纯常量</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;Tears and Rain&#x27;</span></span><br></pre></td></tr></table></figure>
+<h4 id="7-1-2-双引号字符串"><a class="header-anchor" href="#7-1-2-双引号字符串">¶</a>7.1.2. 双引号字符串</h4>
+<p>双引号除了单引号的字符串常量功能，还支持<strong>插值</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> value = <span class="string">&#x27;Rain&#x27;</span></span><br><span class="line"><span class="string">&quot;Tears and $value&quot;</span></span><br></pre></td></tr></table></figure>
+<p>插值以<code>$</code>开头，表达式需要用<code>&#123;&#125;</code>括起来</p>
+<h4 id="7-1-3-三引号字符串"><a class="header-anchor" href="#7-1-3-三引号字符串">¶</a>7.1.3. 三引号字符串</h4>
+<p>在单引号常量的基础上添加了格式，但不支持插值</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> str =</span><br><span class="line">            <span class="string">&#x27;&#x27;&#x27;Tears </span></span><br><span class="line"><span class="string">      and </span></span><br><span class="line"><span class="string">           Rain&#x27;&#x27;&#x27;</span></span><br><span class="line">    println str</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220704230111401.png" alt="image-20220704230111401"></p>
+<p><code>String</code>不可变，<code>GString</code>可变，即使字面量相同，hashCode也可能不同，因此应当避免使用<code>GString</code>作为Map的Key</p>
+<h3 id="7-2-List"><a class="header-anchor" href="#7-2-List">¶</a>7.2. List</h3>
+<p>Groovy的集合类是对Java集合类的加工</p>
+<p>因此Groovy中<code>List</code>就对应Java中的<code>List</code>，并且默认实现类是<code>ArrayList</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">assert</span> list <span class="keyword">instanceof</span> List</span><br></pre></td></tr></table></figure>
+<p>在Groovy中，使用<code>as</code>进行强制转换</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> linkedList = list <span class="keyword">as</span> LinkedList</span><br><span class="line"><span class="keyword">assert</span> linkedList <span class="keyword">instanceof</span> LinkedList</span><br></pre></td></tr></table></figure>
+<p>元素的获取直接采用<code>[]</code>，根据索引获取元素</p>
+<p>这里的索引可正可负，分别对应正数和倒数的顺序</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">assert</span> list[<span class="number">0</span>] == <span class="number">1</span></span><br><span class="line"><span class="keyword">assert</span> list[<span class="number">-1</span>] == <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>并且，使用<code>&lt;&lt;</code>可以进行末尾元素的追加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">list &lt;&lt; <span class="number">4</span>  <span class="comment">// 末尾追加</span></span><br><span class="line">println list</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220706235406241.png" alt="image-20220706235406241"></p>
+<h3 id="7-3-Map"><a class="header-anchor" href="#7-3-Map">¶</a>7.3. Map</h3>
+<p>创建同样使用<code>[]</code>，不过其中的内容是键值对，并且这里的<code>Map</code>的默认实现使用的是<code>LinkedHashMap</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> map = [<span class="attr">one:</span> <span class="string">&#x27;1&#x27;</span>, <span class="attr">two:</span> <span class="string">&#x27;2&#x27;</span>, <span class="attr">three:</span> <span class="string">&#x27;3&#x27;</span>]   <span class="comment">// 键值对</span></span><br><span class="line">println map</span><br></pre></td></tr></table></figure>
+<p>但是需要注意的是，key的表示，<strong>key默认为字符串</strong>（尽管没加引号）</p>
+<p>取值的方式，则是通过<code>[]</code>加上key</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println map[<span class="string">&#x27;one&#x27;</span>]   <span class="comment">// 这个时候又需要加上引号了</span></span><br></pre></td></tr></table></figure>
+<p>因为之前说了，key默认会为字符串，那么变量如何表示？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220708231636025.png" alt="image-20220708231636025"></p>
+<p>这样直接拿去用，自然key变成key1这个字符串，而非其内容（并未高亮显示）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220708231741423.png" alt="image-20220708231741423"></p>
+<p>这里就需要加上括号，现在就高亮了</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> key1 = <span class="string">&#x27;one&#x27;</span></span><br><span class="line"><span class="keyword">def</span> map = [(key1): <span class="string">&#x27;1&#x27;</span>, <span class="attr">two:</span> <span class="string">&#x27;2&#x27;</span>, <span class="attr">three:</span> <span class="string">&#x27;3&#x27;</span>]  <span class="comment">// 这里()特殊了这个key，表明它还拥有变量的身份</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-4-闭包"><a class="header-anchor" href="#7-4-闭包">¶</a>7.4. 闭包</h3>
+<p>闭包实际上代表的是一个<strong>代码块</strong>，而它的行为则由你进行定义</p>
+<p>在结构上，闭包分为两个部分：<strong>参数列表</strong>和<strong>语句</strong></p>
+<p>大概的格式为</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; 参数列表 -&gt; 语句 &#125;</span><br></pre></td></tr></table></figure>
+<p>其中，参数列表是可选的，如果参数列表只有一个参数，那么Groovy会将其默认为<code>it</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line">task test &#123;</span><br><span class="line">   println it   <span class="comment">// 其实就是前面的task</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上没有使用到参数列表</p>
+<p>也可以指定参数列表</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line">task test &#123;</span><br><span class="line">   it -&gt; println it</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>闭包实质上是一个<code>Closure</code>实例</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> add = &#123;</span><br><span class="line">       String a, String b -&gt; println a + b</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>闭包可以看作是方法，根据参数列表传入参数，执行语句</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> add = &#123;</span><br><span class="line">        String a, String b -&gt; println a + b</span><br><span class="line">    &#125;</span><br><span class="line">add(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>)  <span class="comment">// 直接调用</span></span><br><span class="line">add.call(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>)  <span class="comment">// 通过call()调用</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220709074955052.png" alt="image-20220709074955052"></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> isTwo = &#123;</span><br><span class="line">        <span class="type">int</span> i -&gt; i == <span class="number">2</span>   <span class="comment">// 返回值</span></span><br><span class="line">    &#125;</span><br><span class="line">println isTwo(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220709074820771.png" alt="image-20220709074820771"></p>
+<h3 id="7-5-I-O操作"><a class="header-anchor" href="#7-5-I-O操作">¶</a>7.5. I/O操作</h3>
+<p>I/O操作无外乎<strong>写入</strong>和<strong>读取</strong>，这样的操作在使用Gradle构建应该很常见</p>
+<h4 id="7-5-1-写入"><a class="header-anchor" href="#7-5-1-写入">¶</a>7.5.1. 写入</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220709080707372.png" alt="image-20220709080707372"></p>
+<p>一会儿会在这里创建一个文件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> path = <span class="string">&quot;C:\\Develop\\groovy_projects\\test\\mapping.txt&quot;</span>  <span class="comment">// 文件路径</span></span><br><span class="line"><span class="keyword">def</span> file = <span class="keyword">new</span> File(path)   <span class="comment">// 文件对象</span></span><br><span class="line">file.withPrintWriter &#123;   </span><br><span class="line">	it.println(<span class="string">&quot;Happy birthday!&quot;</span>)   <span class="comment">// 按行写入</span></span><br><span class="line">	it.println(<span class="string">&quot;My Love!&quot;</span>)</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+<p>这里按照路径创建了一个文件</p>
+<p><img src="C:/Users/Minos/AppData/Roaming/Typora/typora-user-images/image-20220709080946751.png" alt="image-20220709080946751"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220709080946753.png" alt="image-20220709080946753"></p>
+<p>打开可以看到一共两行内容，这就写入成功了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220709081009743.png" alt="image-20220709081009743"></p>
+<h4 id="7-5-2-读取"><a class="header-anchor" href="#7-5-2-读取">¶</a>7.5.2. 读取</h4>
+<p>既然创建了对应的文件，并且写入了内容，那么接下来将文件的内容读取并输出到控制台上</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> path = <span class="string">&quot;C:\\Develop\\groovy_projects\\test\\mapping.txt&quot;</span></span><br><span class="line"><span class="keyword">def</span> file = <span class="keyword">new</span> File(path)</span><br><span class="line">file.eachLine &#123;    <span class="comment">// 将内容按行输出</span></span><br><span class="line">	println it</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/image-20220709081525024.png" alt="image-20220709081525024"></p>
+<p>甚至可以更精简一些</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> path = <span class="string">&quot;C:\\Develop\\groovy_projects\\test\\mapping.txt&quot;</span></span><br><span class="line"><span class="keyword">def</span> file = <span class="keyword">new</span> File(path)</span><br><span class="line">println file.text  <span class="comment">// 全部输出</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-6-语法糖"><a class="header-anchor" href="#7-6-语法糖">¶</a>7.6. 语法糖</h3>
+<h4 id="7-6-1-判断列表"><a class="header-anchor" href="#7-6-1-判断列表">¶</a>7.6.1. 判断列表</h4>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> name = []</span><br><span class="line"><span class="keyword">if</span> (name) &#123;    <span class="comment">// 判断了!null且不为[]</span></span><br><span class="line">	println name</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="7-6-2-空判断"><a class="header-anchor" href="#7-6-2-空判断">¶</a>7.6.2. 空判断</h4>
+<p>使用<code>.?</code>进行调用，可以对调用方施加<code>if(调用方!=null)</code>的判断</p>
+<p>这比Java中层层相扣的空指针判断要舒服很多</p>
+<h4 id="7-6-3-with"><a class="header-anchor" href="#7-6-3-with">¶</a>7.6.3. with</h4>
+<p>可用于简化对同一对象的操作</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> p = <span class="keyword">new</span> Person()</span><br><span class="line">p.with &#123;    </span><br><span class="line">	name = <span class="string">&#x27;Bob&#x27;</span></span><br><span class="line">	age = <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line">println p.name</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Minos</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/05/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/">http://example.com/2023/03/05/Gradle%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Groovy%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">樱花盛开的海港</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207090915717.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/05/Dart%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="Dart学习笔记（一）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204122252424.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Dart学习笔记（一）</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99/" title="设计模式——六大原则"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202207031102130.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">设计模式——六大原则</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minos</div><div class="author-info__description">尽情享用此刻的休闲时光~~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Gradle学习——Groovy基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0-v2"><span class="toc-number">1.1.</span> <span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BC%96%E5%86%99%E4%B8%8E%E8%B0%83%E8%AF%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.2.</span> <span class="toc-text">2. 编写与调试步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">1.3.</span> <span class="toc-text">3. 变量定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%96%B9%E6%B3%95%E5%AE%9A%E4%B9%89"><span class="toc-number">1.4.</span> <span class="toc-text">4. 方法定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%B1%BB"><span class="toc-number">1.5.</span> <span class="toc-text">5. 类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.6.</span> <span class="toc-text">6. 语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%96%AD%E8%A8%80"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1. 断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-for%E5%BE%AA%E7%8E%AF"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2. for循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-switch%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.6.3.</span> <span class="toc-text">6.3. switch语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.7.</span> <span class="toc-text">7. 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.7.1.</span> <span class="toc-text">7.1. 字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-1-%E5%8D%95%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">7.1.1. 单引号字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-2-%E5%8F%8C%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">7.1.2. 双引号字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-3-%E4%B8%89%E5%BC%95%E5%8F%B7%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.7.1.3.</span> <span class="toc-text">7.1.3. 三引号字符串</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-List"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.2. List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-Map"><span class="toc-number">1.7.3.</span> <span class="toc-text">7.3. Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E9%97%AD%E5%8C%85"><span class="toc-number">1.7.4.</span> <span class="toc-text">7.4. 闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-I-O%E6%93%8D%E4%BD%9C"><span class="toc-number">1.7.5.</span> <span class="toc-text">7.5. I&#x2F;O操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-1-%E5%86%99%E5%85%A5"><span class="toc-number">1.7.5.1.</span> <span class="toc-text">7.5.1. 写入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-2-%E8%AF%BB%E5%8F%96"><span class="toc-number">1.7.5.2.</span> <span class="toc-text">7.5.2. 读取</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-6-%E8%AF%AD%E6%B3%95%E7%B3%96"><span class="toc-number">1.7.6.</span> <span class="toc-text">7.6. 语法糖</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-6-1-%E5%88%A4%E6%96%AD%E5%88%97%E8%A1%A8"><span class="toc-number">1.7.6.1.</span> <span class="toc-text">7.6.1. 判断列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-6-2-%E7%A9%BA%E5%88%A4%E6%96%AD"><span class="toc-number">1.7.6.2.</span> <span class="toc-text">7.6.2. 空判断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-6-3-with"><span class="toc-number">1.7.6.3.</span> <span class="toc-text">7.6.3. with</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/11/JVM%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" title="JVM学习——Java内存区域与内存溢出异常"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303111346098.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM学习——Java内存区域与内存溢出异常"/></a><div class="content"><a class="title" href="/2023/03/11/JVM%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" title="JVM学习——Java内存区域与内存溢出异常">JVM学习——Java内存区域与内存溢出异常</a><time datetime="2023-03-11T05:23:07.957Z" title="发表于 2023-03-11 13:23:07">2023-03-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（三）—— 通用编程概念（下）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303051449595.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（三）—— 通用编程概念（下）"/></a><div class="content"><a class="title" href="/2023/03/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（三）—— 通用编程概念（下）">Rust 探索（三）—— 通用编程概念（下）</a><time datetime="2023-03-05T06:45:38.940Z" title="发表于 2023-03-05 14:45:38">2023-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/%E8%A7%86%E5%9B%BE%E7%BB%91%E5%AE%9A/" title="视图绑定"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051118172.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="视图绑定"/></a><div class="content"><a class="title" href="/2023/03/05/%E8%A7%86%E5%9B%BE%E7%BB%91%E5%AE%9A/" title="视图绑定">视图绑定</a><time datetime="2023-03-05T01:17:46.209Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/Flutter%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="Flutter学习笔记（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202204051120579.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Flutter学习笔记（一）"/></a><div class="content"><a class="title" href="/2023/03/05/Flutter%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="Flutter学习笔记（一）">Flutter学习笔记（一）</a><time datetime="2023-03-05T01:17:46.207Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/05/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/" title="AIDL学习之路（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202206191731348.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AIDL学习之路（一）"/></a><div class="content"><a class="title" href="/2023/03/05/AIDL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%EF%BC%88%E4%B8%80%EF%BC%89/" title="AIDL学习之路（一）">AIDL学习之路（一）</a><time datetime="2023-03-05T01:17:46.206Z" title="发表于 2023-03-05 09:17:46">2023-03-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Minos</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
