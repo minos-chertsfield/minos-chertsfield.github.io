@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Rust 探索（八）—— 枚举与模式匹配（上） | 樱花盛开的海港</title><meta name="author" content="Minos"><meta name="copyright" content="Minos"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Rust 探索（八）—— 枚举与模式匹配（上） ¶1. 枚举类型 枚举类型的特点就是列举所有可能的值来定义一个类型 就比方说交通信号灯的颜色，总共有红、黄、绿3种可能，那么作为灯的颜色这个类型，有3个枚举变体，分别是RED（红）、YELLOW（黄）、GREEN（绿） ¶2. 定义枚举 使用enum关键字定义枚举类型 12345enum Signal &amp;#123;    &#x2F;&#x2F; 使用enum定义枚举">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust 探索（八）—— 枚举与模式匹配（上）">
+<meta property="og:url" content="http://example.com/2023/06/01/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/index.html">
+<meta property="og:site_name" content="樱花盛开的海港">
+<meta property="og:description" content="Rust 探索（八）—— 枚举与模式匹配（上） ¶1. 枚举类型 枚举类型的特点就是列举所有可能的值来定义一个类型 就比方说交通信号灯的颜色，总共有红、黄、绿3种可能，那么作为灯的颜色这个类型，有3个枚举变体，分别是RED（红）、YELLOW（黄）、GREEN（绿） ¶2. 定义枚举 使用enum关键字定义枚举类型 12345enum Signal &amp;#123;    &#x2F;&#x2F; 使用enum定义枚举">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306012327670.jpg">
+<meta property="article:published_time" content="2023-06-01T15:15:14.211Z">
+<meta property="article:modified_time" content="2023-06-01T15:28:10.843Z">
+<meta property="article:author" content="Minos">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306012327670.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/06/01/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Rust 探索（八）—— 枚举与模式匹配（上）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-01 23:28:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306012327670.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="樱花盛开的海港"><span class="site-name">樱花盛开的海港</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Rust 探索（八）—— 枚举与模式匹配（上）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-01T15:15:14.211Z" title="发表于 2023-06-01 23:15:14">2023-06-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-01T15:28:10.843Z" title="更新于 2023-06-01 23:28:10">2023-06-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Rust/">Rust</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Rust 探索（八）—— 枚举与模式匹配（上）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Rust 探索（八）—— 枚举与模式匹配（上）</h1>
+<h2 id="1-枚举类型"><a class="header-anchor" href="#1-枚举类型">¶</a>1. 枚举类型</h2>
+<p>枚举类型的特点就是<strong>列举所有可能的值来定义一个类型</strong></p>
+<p>就比方说交通信号灯的颜色，总共有红、黄、绿3种可能，那么作为灯的颜色这个类型，有3个枚举变体，分别是RED（红）、YELLOW（黄）、GREEN（绿）</p>
+<h2 id="2-定义枚举"><a class="header-anchor" href="#2-定义枚举">¶</a>2. 定义枚举</h2>
+<p>使用<code>enum</code>关键字定义枚举类型</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Signal</span> &#123;    <span class="comment">// 使用enum定义枚举</span></span><br><span class="line">    RED,</span><br><span class="line">    YELLOW,</span><br><span class="line">    GREEN</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上所示，Signal就是枚举类的名称，对比着结构体的内容来看，RED、YELLOW、GREEN是3个成员，不过在枚举中，它们称为<strong>变体</strong></p>
+<p>另外，这三个变体同属于Signal这一个类型，红、黄、绿都是灯的颜色，只不过呈现的形式不同</p>
+<h2 id="3-枚举值"><a class="header-anchor" href="#3-枚举值">¶</a>3. 枚举值</h2>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">green</span> = Signal::GREEN;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">red</span> = Signal::RED;</span><br></pre></td></tr></table></figure>
+<p>枚举类和变体之间使用<code>::</code>分隔，这里的green和red相当于是对应枚举变体的实例了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202305302346927.png" alt="image-20230530234608821"></p>
+<p>注意，这两个变量对应的是同一类型，正如Rust编译器所推导的一样</p>
+<p>因此，如果需要定义函数处理它们，只需定义Signal类型的参数</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">decide</span>(signal: Signal) &#123;</span><br><span class="line">    <span class="comment">// todo </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">decide</span>(green);   <span class="comment">// 同一处理变体</span></span><br><span class="line"><span class="title function_ invoke__">decide</span>(red);</span><br></pre></td></tr></table></figure>
+<h2 id="4-枚举vs结构体"><a class="header-anchor" href="#4-枚举vs结构体">¶</a>4. 枚举vs结构体</h2>
+<p>面对正确的场景使用正确的结构总是能发挥最大的优势</p>
+<p>我们知道，红灯停、绿灯行、黄灯提醒，此时如果我们想要把灯的颜色和其代表的信息一同打包，应该如何选择呢？</p>
+<p>如果使用结构体，那么可能会这样定义</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SignalInfo</span> &#123;</span><br><span class="line">    color: Signal,    <span class="comment">// 灯的颜色枚举</span></span><br><span class="line">    info: <span class="type">String</span>      <span class="comment">// 与之对应的含义</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">green</span> = SignalInfo &#123;  <span class="comment">// 以绿灯为例</span></span><br><span class="line">        color: Signal::GREEN,</span><br><span class="line">        info: String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;行&quot;</span>)</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<p>似乎没有很复杂，逻辑清晰，color字段接收颜色，info字段放提示信息，使用的时候实例化类型</p>
+<p>但是，作为该领域的霸主，枚举举手表示它有更好的方案</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Signal</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">RED</span>(<span class="type">String</span>),  <span class="comment">// 直接关联类型</span></span><br><span class="line">    <span class="title function_ invoke__">YELLOW</span>(<span class="type">String</span>),</span><br><span class="line">    <span class="title function_ invoke__">GREEN</span>(<span class="type">String</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就好比结构体是跟别人借车放东西，而枚举是私家车，有东西直接打包放后备箱，明显更灵活</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">green</span> = Signal::<span class="title function_ invoke__">GREEN</span>(String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;行&quot;</span>));</span><br></pre></td></tr></table></figure>
+<p>直观感受就是简短</p>
+<p>并且，更加强大的一点是枚举后面关联的类型并不需要一样</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Signal</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">RED</span>(<span class="type">bool</span>),</span><br><span class="line">    <span class="title function_ invoke__">YELLOW</span>(<span class="type">String</span>),</span><br><span class="line">    <span class="title function_ invoke__">GREEN</span>(<span class="type">i32</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>私家车嘛，想怎么放是你的自由，用别人的车可是事先要说清楚的，临时变卦可不行</p>
+<h2 id="5-枚举方法"><a class="header-anchor" href="#5-枚举方法">¶</a>5. 枚举方法</h2>
+<p>枚举的方法定义其实和结构体非常相似，都是使用<code>impl</code>关键字</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Signal</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">show</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="comment">// 具体逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样地，使用<code>impl</code>创建一个与枚举同名的块，<code>&amp;self</code>也是代表了实例</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">red</span> = Signal::<span class="title function_ invoke__">RED</span>(<span class="literal">true</span>);</span><br><span class="line">red.<span class="title function_ invoke__">show</span>();   <span class="comment">// 通过实例调用</span></span><br></pre></td></tr></table></figure>
+<p>相应地，如果定义关联函数，也是使用枚举名称加上<code>::</code>调用</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Signal</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">print</span>() &#123;</span><br><span class="line">		<span class="comment">// 关联函数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Signal::<span class="title function_ invoke__">print</span>();</span><br></pre></td></tr></table></figure>
+<h2 id="6-Option-枚举"><a class="header-anchor" href="#6-Option-枚举">¶</a>6. Option 枚举</h2>
+<p><code>Option</code>枚举是Rust中一个很重要的存在，这种重要性需要从一个<strong>空值</strong>的概念说起</p>
+<p>现代的许多编程语言都会有一个所谓的空值的概念，在Java中就是大名鼎鼎的<code>null</code>，并且很自然地就会联想到令人头疼的<code>NullPointerException</code></p>
+<p>我们通常的程序，都是需要有特定类型的值，用作书写业务逻辑，但是<code>null</code>表示一种无效的场景，用于和正确的逻辑赋值区别开来，可能是没有初始化或者传值不合法等等，这种<code>null</code>是不能直接拿来使用的，尤其是在其上调用函数，立马会导致程序崩溃</p>
+<p>在代码达到一定规模时，这种可能出现的<code>null</code>会遍布程序当中，不知什么时候就会被触发，即使编写代码时，一直注意判断也很难保证安全，于是后来出现的一些语言针对空安全做了很多专项处理，比如说Kotlin、TypeScript等，Rust甚至索性<strong>不支持空值</strong></p>
+<p>不支持空值是指不会拿给你用，但是<strong>保留了一个概念</strong>，用以表示这种无效或缺失的情形</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">Option</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="comment">/// No value.</span></span><br><span class="line">    <span class="meta">#[lang = <span class="string">&quot;None&quot;</span>]</span></span><br><span class="line">    <span class="meta">#[stable(feature = <span class="string">&quot;rust1&quot;</span>, since = <span class="string">&quot;1.0.0&quot;</span>)]</span></span><br><span class="line">    <span class="literal">None</span>,</span><br><span class="line">    <span class="comment">/// Some value of type `T`.</span></span><br><span class="line">    <span class="meta">#[lang = <span class="string">&quot;Some&quot;</span>]</span></span><br><span class="line">    <span class="meta">#[stable(feature = <span class="string">&quot;rust1&quot;</span>, since = <span class="string">&quot;1.0.0&quot;</span>)]</span></span><br><span class="line">    <span class="title function_ invoke__">Some</span>(<span class="meta">#[stable(feature = <span class="string">&quot;rust1&quot;</span>, since = <span class="string">&quot;1.0.0&quot;</span>)]</span> T),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>标准库中定义了<code>Option</code>枚举，它有两个枚举变体：<code>None</code>和<code>Some</code></p>
+<p><code>None</code>表示的就是所谓值无效或者缺失的含义，而<code>Some</code>表示一个<code>T</code>的类型，这里的<code>T</code>表示的<strong>泛型</strong>的概念，就如同Java的泛型和C++的模板，意味着<code>Some</code>可以表示各种类型的值，这也是正常情况下我们需要使用的有效值</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">valid_value</span> = <span class="title function_ invoke__">Some</span>(<span class="string">&quot;有效值&quot;</span>);    <span class="comment">// 直接赋值，推断出对应类型为字符串切片</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">invalid_value</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="literal">None</span>;    <span class="comment">// None必须显式声明类型</span></span><br></pre></td></tr></table></figure>
+<p>可以直接使用<code>Some</code>和<code>None</code>，但是**<code>None</code>必须显式指定类型**，否则编译器无法推断</p>
+<p>好像看起来，<code>None</code>和所谓<code>null</code>没什么区别，但是别忘了，<code>Some</code>和<code>None</code>对应的可是同一个枚举类型</p>
+<p><code>Option&lt;T&gt;</code>表明<code>T</code>可能无效，也可能是<code>T</code>，这两种情况你必须都要考虑，不然你通不过编译，这就和Kotlin的可空类型差不多</p>
+<p>通常的处理可以搭配上<code>match</code>表达式使用</p>
+<h2 id="7-控制流运算符-match"><a class="header-anchor" href="#7-控制流运算符-match">¶</a>7. 控制流运算符 match</h2>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Waste</span> &#123;</span><br><span class="line">    Recyclable,   <span class="comment">// 可回收垃圾</span></span><br><span class="line">    Other,   <span class="comment">// 其他垃圾</span></span><br><span class="line">    Kitchen,   <span class="comment">// 厨余垃圾</span></span><br><span class="line">    Hazardous   <span class="comment">// 有害垃圾</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">classify</span>(waste: Waste) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">match</span> waste &#123;</span><br><span class="line">        Waste::Recyclable =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;蓝色&quot;</span>),</span><br><span class="line">        Waste::Other =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;灰色&quot;</span>),</span><br><span class="line">        Waste::Kitchen =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;绿色&quot;</span>),</span><br><span class="line">        Waste::Hazardous =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;红色&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>match</code>后面跟一个表达式，便是上面的waste字段，这是带匹配的条件，接下来会依次与下面的各个变体进行匹配，这些候选的<strong>模式</strong>采用<code>,</code>分隔开来，并且使用<code>=&gt;</code>将对应的值和代码逻辑关联起来，作为一个整体，类似于如果…那么…，与Java当中的开关语句<code>switch...case</code>接近</p>
+<p>如果<code>=&gt;</code>的代码有多行语句，那么还需要加上<code>&#123;&#125;</code></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">classify</span>(waste: Waste) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">match</span> waste &#123;</span><br><span class="line">        Waste::Recyclable =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;蓝色&quot;</span>),</span><br><span class="line">        Waste::Other =&gt; &#123;   <span class="comment">// 多行代码，使用&#123;&#125;</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;仔细想想，不要乱扔！&quot;</span>);   </span><br><span class="line">            String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;灰色&quot;</span>)   <span class="comment">// 最后一句返回</span></span><br><span class="line">        &#125;,</span><br><span class="line">        Waste::Kitchen =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;绿色&quot;</span>),</span><br><span class="line">        Waste::Hazardous =&gt; String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;红色&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Minos</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/01/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/">http://example.com/2023/06/01/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">樱花盛开的海港</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Rust/">Rust</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306012327670.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/29/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%20%E5%87%86%E5%A4%87/" title="Rust 探索（一）—— 准备"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202305292350163.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Rust 探索（一）—— 准备</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（三）—— 通用编程概念（下）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303051449595.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-05</div><div class="title">Rust 探索（三）—— 通用编程概念（下）</div></div></a></div><div><a href="/2023/03/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%20%E9%80%9A%E7%94%A8%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5/" title="Rust 探索（二）—— 通用编程概念（上）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202303041658787.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-05</div><div class="title">Rust 探索（二）—— 通用编程概念（上）</div></div></a></div><div><a href="/2023/04/21/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%20%E6%89%80%E6%9C%89%E6%9D%83%EF%BC%88%E4%B8%80%EF%BC%89/" title="Rust 探索（四）—— 所有权（一）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202304210011733.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-21</div><div class="title">Rust 探索（四）—— 所有权（一）</div></div></a></div><div><a href="/2023/04/21/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%20%E6%89%80%E6%9C%89%E6%9D%83%EF%BC%88%E4%BA%8C%EF%BC%89/" title="Rust 探索（五）—— 所有权（二）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202304210010828.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-21</div><div class="title">Rust 探索（五）—— 所有权（二）</div></div></a></div><div><a href="/2023/04/22/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%20%E6%89%80%E6%9C%89%E6%9D%83%EF%BC%88%E4%B8%89%EF%BC%89/" title="Rust 探索（六）—— 所有权（三）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202304221206863.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-22</div><div class="title">Rust 探索（六）—— 所有权（三）</div></div></a></div><div><a href="/2023/05/28/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93%E6%9D%A5%E7%BB%84%E7%BB%87%E7%9B%B8%E5%85%B3%E8%81%94%E7%9A%84%E6%95%B0%E6%8D%AE/" title="Rust 探索（七）—— 使用结构体来组织关联的数据"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202305281817235.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-28</div><div class="title">Rust 探索（七）—— 使用结构体来组织关联的数据</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minos</div><div class="author-info__description">尽情享用此刻的休闲时光~~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Rust 探索（八）—— 枚举与模式匹配（上）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1. 枚举类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.2.</span> <span class="toc-text">2. 定义枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9E%9A%E4%B8%BE%E5%80%BC"><span class="toc-number">1.3.</span> <span class="toc-text">3. 枚举值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%9E%9A%E4%B8%BEvs%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.4.</span> <span class="toc-text">4. 枚举vs结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%9E%9A%E4%B8%BE%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">5. 枚举方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Option-%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.6.</span> <span class="toc-text">6. Option 枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%8E%A7%E5%88%B6%E6%B5%81%E8%BF%90%E7%AE%97%E7%AC%A6-match"><span class="toc-number">1.7.</span> <span class="toc-text">7. 控制流运算符 match</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/01/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" title="Rust 探索（八）—— 枚举与模式匹配（上）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306012327670.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（八）—— 枚举与模式匹配（上）"/></a><div class="content"><a class="title" href="/2023/06/01/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" title="Rust 探索（八）—— 枚举与模式匹配（上）">Rust 探索（八）—— 枚举与模式匹配（上）</a><time datetime="2023-06-01T15:15:14.211Z" title="发表于 2023-06-01 23:15:14">2023-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/29/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%20%E5%87%86%E5%A4%87/" title="Rust 探索（一）—— 准备"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202305292350163.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（一）—— 准备"/></a><div class="content"><a class="title" href="/2023/05/29/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%20%E5%87%86%E5%A4%87/" title="Rust 探索（一）—— 准备">Rust 探索（一）—— 准备</a><time datetime="2023-05-29T15:41:41.841Z" title="发表于 2023-05-29 23:41:41">2023-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/28/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93%E6%9D%A5%E7%BB%84%E7%BB%87%E7%9B%B8%E5%85%B3%E8%81%94%E7%9A%84%E6%95%B0%E6%8D%AE/" title="Rust 探索（七）—— 使用结构体来组织关联的数据"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202305281817235.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（七）—— 使用结构体来组织关联的数据"/></a><div class="content"><a class="title" href="/2023/05/28/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93%E6%9D%A5%E7%BB%84%E7%BB%87%E7%9B%B8%E5%85%B3%E8%81%94%E7%9A%84%E6%95%B0%E6%8D%AE/" title="Rust 探索（七）—— 使用结构体来组织关联的数据">Rust 探索（七）—— 使用结构体来组织关联的数据</a><time datetime="2023-05-28T10:08:10.732Z" title="发表于 2023-05-28 18:08:10">2023-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/18/Python%20%E8%BF%9B%E6%AD%A5%E4%B8%80%E7%82%B9%E7%82%B9%EF%BC%88%E4%B8%80%EF%BC%89/" title="Python 进步一点点（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202305182307691.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python 进步一点点（一）"/></a><div class="content"><a class="title" href="/2023/05/18/Python%20%E8%BF%9B%E6%AD%A5%E4%B8%80%E7%82%B9%E7%82%B9%EF%BC%88%E4%B8%80%EF%BC%89/" title="Python 进步一点点（一）">Python 进步一点点（一）</a><time datetime="2023-05-18T15:05:45.752Z" title="发表于 2023-05-18 23:05:45">2023-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/22/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%20%E6%89%80%E6%9C%89%E6%9D%83%EF%BC%88%E4%B8%89%EF%BC%89/" title="Rust 探索（六）—— 所有权（三）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202304221206863.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（六）—— 所有权（三）"/></a><div class="content"><a class="title" href="/2023/04/22/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%20%E6%89%80%E6%9C%89%E6%9D%83%EF%BC%88%E4%B8%89%EF%BC%89/" title="Rust 探索（六）—— 所有权（三）">Rust 探索（六）—— 所有权（三）</a><time datetime="2023-04-22T03:57:36.746Z" title="发表于 2023-04-22 11:57:36">2023-04-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Minos</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
