@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Linux C 编程（一） | 樱花盛开的海港</title><meta name="author" content="Minos"><meta name="copyright" content="Minos"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Linux C 编程（一） ¶1. 程序基础 ¶1.1. 基本概念 计算机是由数字电路组成的运算机器，只能对数字进行运算，而其能够进行符号运算的原因，是因为符号在计算机内部也是用数字表示的 程序 用来告诉计算机应该如何完成一个计算任务（简言之，就是先做什么，再做什么） 指令 程序由一系列指令组成，指令是指示计算机进行某种运算的命令 语句 计算机指令的抽象表示（比如C、Java这种高级语言，不是使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux C 编程（一）">
+<meta property="og:url" content="http://example.com/2023/06/23/Linux%20C%20%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="樱花盛开的海港">
+<meta property="og:description" content="Linux C 编程（一） ¶1. 程序基础 ¶1.1. 基本概念 计算机是由数字电路组成的运算机器，只能对数字进行运算，而其能够进行符号运算的原因，是因为符号在计算机内部也是用数字表示的 程序 用来告诉计算机应该如何完成一个计算任务（简言之，就是先做什么，再做什么） 指令 程序由一系列指令组成，指令是指示计算机进行某种运算的命令 语句 计算机指令的抽象表示（比如C、Java这种高级语言，不是使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306262202341.jpeg">
+<meta property="article:published_time" content="2023-06-22T16:53:52.244Z">
+<meta property="article:modified_time" content="2023-06-26T14:02:47.923Z">
+<meta property="article:author" content="Minos">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306262202341.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/06/23/Linux%20C%20%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux C 编程（一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-26 22:02:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 關於</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306262202341.jpeg')"><nav id="nav"><span id="blog-info"><a href="/" title="樱花盛开的海港"><span class="site-name">樱花盛开的海港</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 關於</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux C 编程（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-22T16:53:52.244Z" title="发表于 2023-06-23 00:53:52">2023-06-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-26T14:02:47.923Z" title="更新于 2023-06-26 22:02:47">2023-06-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux C 编程（一）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Linux C 编程（一）</h1>
+<h2 id="1-程序基础"><a class="header-anchor" href="#1-程序基础">¶</a>1. 程序基础</h2>
+<h3 id="1-1-基本概念"><a class="header-anchor" href="#1-1-基本概念">¶</a>1.1. 基本概念</h3>
+<p>计算机是由<strong>数字电路</strong>组成的运算机器，只能对<strong>数字</strong>进行运算，而其能够进行符号运算的原因，是因为<strong>符号在计算机内部也是用数字表示的</strong></p>
+<p><strong>程序</strong></p>
+<p>用来告诉计算机应该<strong>如何完成</strong>一个计算任务（简言之，就是先做什么，再做什么）</p>
+<p><strong>指令</strong></p>
+<p>程序由一系列<strong>指令</strong>组成，指令是<strong>指示计算机进行某种运算的命令</strong></p>
+<p><strong>语句</strong></p>
+<p>计算机指令的<strong>抽象</strong>表示（比如C、Java这种高级语言，不是使用的助记符或是机器码指令，而是封装成了更加易用的逻辑）</p>
+<p><strong>编写程序</strong></p>
+<p>编写程序的过程是将复杂的任务分解成子任务，再把子任务进一步分解，不断反复这样的分解，直到简单得可以使用<strong>指令</strong>完成</p>
+<h3 id="1-2-程序调试"><a class="header-anchor" href="#1-2-程序调试">¶</a>1.2. 程序调试</h3>
+<p>程序的编写是一个复杂的过程，其中时常陪伴着程序员的还有寻找 Bug 的过程，因为程序毕竟是人写的，人总会犯错，因此就需要我们查找并修改这些程序中的错误，也就是所谓 Bug</p>
+<p>找到程序当中的这些 Bug 并且纠正的过程便是<strong>调试</strong>（Debug）</p>
+<h4 id="Bug的分类"><a class="header-anchor" href="#Bug的分类">¶</a>Bug的分类</h4>
+<ul>
+<li>编译时错误</li>
+</ul>
+<p><strong>编译器只能翻译语法正确的程序</strong>，如果语法存在错误，编译器就会罢工，此时你需要根据编译器提供的线索，找到问题并加以改正</p>
+<ul>
+<li>运行时错误</li>
+</ul>
+<p><strong>编译器检查不出这种错误</strong>，并且会继续生成可执行文件，但是运行时可能会发生意想不到的错误或者崩溃</p>
+<ul>
+<li>逻辑错误和语义错误</li>
+</ul>
+<p>这种错误是程序代码的逻辑存在问题，也是在编译期发现不了，但是这种错误会使程序执行错误的功能，比如说明明想要程序执行加法，却写了一个输出“Hello World”的程序</p>
+<p>程序的调试是一个“破案”的过程，需要你根据线索进行<strong>假设、推理</strong>，最终找到问题所在，同时也需要<strong>经验的积累</strong>，并且会一直伴随程序员成长</p>
+<h3 id="1-3-第一个程序"><a class="header-anchor" href="#1-3-第一个程序">¶</a>1.3. 第一个程序</h3>
+<p>依照传统，一门编程语言的第一个程序通常都是输出“Hello World!”字符串，我们一起看下用 C 语言该如何写吧：</p>
+<p>首先，创建一个普通的文本文件，修改后缀名为<code>.c</code>，表明这是一个 C 语言<strong>源代码文件</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306231756427.png" alt="image-20230623001516951"></p>
+<p>接下来，编写以下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这便是一个输出“Hello World”字符串的简单程序</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc hello.c</span><br></pre></td></tr></table></figure>
+<p>在终端调用<code>gcc</code>命令进行源代码文件的编译，得到可执行文件 <code>a.out</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./a.out </span><br></pre></td></tr></table></figure>
+<p>执行<code>a.out</code>文件，得到运行结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306231756147.png" alt="image-20230623002639020"></p>
+<p><code>#include &lt;stdio.h&gt;</code>用来引入头文件，目的是提供可以调用的函数，比如说下面的<code>printf()</code>，而<code>main()</code>也是一个函数，作为程序的入口，程序从<code>mian()</code>开始执行，<code>&#123;&#125;</code>包裹的部分便是<code>main()</code>的内容，<code>printf()</code>将其中使用<code>&quot;&quot;</code>包裹的字符串输出到终端控制台，最后<code>return</code>语句表示程序的终结，返回一个0，表示程序正常结束</p>
+<h2 id="2-常量、变量和表达式"><a class="header-anchor" href="#2-常量、变量和表达式">¶</a>2. 常量、变量和表达式</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* Hello World程序</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 输出Hello World字符串</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用<code>/*</code>开头并且使用<code>*/</code>结尾跨越多行的内容是程序的<strong>注释</strong>，其会被编译器忽视，仅仅用于对程序的功能进行说明</p>
+<p>使用<code>/*</code>和<code>*/</code>包裹的是<strong>多行注释</strong>，期间可以有多行内容，但是<strong>不能够进行嵌套</strong>，否则会导致注释失效</p>
+<p>除了多行注释，还可以使用以<code>//</code>开头的<strong>单行注释</strong>，这种注释的范围是从<code>//</code>直至当前的行尾</p>
+<h3 id="2-1-常量"><a class="header-anchor" href="#2-1-常量">¶</a>2.1. 常量</h3>
+<p>常量是程序中最基本的元素，C 语言当中有各种类型的常量，像是字符常量、整数常量、枚举常量等</p>
+<p>其中注意，<strong>字符常量</strong>需要通过<code>''</code>包裹，比如<code>'&#123;'</code>就是一个字符常量，通常都是单个字符，但是如果表示的是转义字符，可能出现<code>\n</code>这种，但其实质还是一个字符</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;字符%c\n整数%d\n浮点数%f\n&quot;</span>, <span class="string">&#x27;&#123;&#x27;</span>, <span class="number">56</span>, <span class="number">6.78</span>);</span><br></pre></td></tr></table></figure>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306252154864.png" alt="image-20230625215444219" style="zoom:50%;" />
+<p>以上<code>printf</code>语句输出字符、整数、浮点数常量，其中<code>printf()</code>的第一个参数称为<strong>格式化字符串</strong>，也就是<code>&quot;字符%c\n整数%d\n浮点数%f\n&quot;</code>，它的作用是告诉后面几个常量将要以何种格式“对号入座”</p>
+<p><code>%</code>后面分别添加<code>c</code>、<code>d</code>、<code>f</code>表示字符型、整型、浮点型的<strong>转换说明</strong>，转换说明在字符串中占个位置，即<strong>占位符</strong>，<strong>运行时</strong>会替换为后面的常量，与<strong>编译时</strong>处理的<strong>转义字符</strong>有所不同</p>
+<h3 id="2-2-变量"><a class="header-anchor" href="#2-2-变量">¶</a>2.2. 变量</h3>
+<p>变量在任何编程语言当中都是极其重要的存在</p>
+<p>从本质上来说，变量是<strong>计算机存储器</strong>里的一块<strong>命名空间</strong>，可以在里面存储一个值，存储的值是可以随时变的</p>
+<p>这就好比租房子，你就是那个值，你不住了，别人住，那么值就发生了变化，但是存储空间还是那一块</p>
+<p>既然常量有不同的类型，与之对应的，变量自然也会有不同的类型</p>
+<p>更深入地讲，<strong>变量的类型决定了它所占用存储空间的大小</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a;  <span class="comment">// 整型</span></span><br><span class="line"><span class="type">double</span> b;  <span class="comment">// 双精度浮点型</span></span><br><span class="line"><span class="type">char</span> c;   <span class="comment">// 字符型</span></span><br><span class="line"><span class="type">long</span> d;  <span class="comment">// 长整型</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%lu\n%lu\n%lu\n%lu\n&quot;</span>, <span class="keyword">sizeof</span>(a), <span class="keyword">sizeof</span>(b), <span class="keyword">sizeof</span>(c), <span class="keyword">sizeof</span>(d));</span><br></pre></td></tr></table></figure>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306252323752.png" alt="image-20230625232323147" style="zoom:50%;" />
+<blockquote>
+<p>C 语言当中的声明可以分为<strong>变量声明</strong>、<strong>函数声明</strong>和<strong>类型声明</strong>三种</p>
+<p>如果变量或者函数<strong>声明的同时要求编译器为其分配存储空间</strong>，那么也可以称为<strong>定义</strong>，因此<strong>定义是声明的一种</strong></p>
+</blockquote>
+<p>为变量起名是有一定的规则需要遵守的，这也就是所谓<strong>标识符</strong>规则</p>
+<p>在 C 语言中，规定必须以<strong>字母</strong>或<strong>下划线</strong>开头，后面可以跟上若干个<strong>字母、数字、下划线</strong>，但是不能掺杂有其他字符，比如：_123、__abc、s1都是合法的标识符</p>
+<p>除此以外，还需要注意，像 C 语言当中的<strong>关键字</strong>或者是<strong>保留字</strong>是不能够作为标识符的</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-basic-syntax.html">C语言关键字参考（https://www.runoob.com/cprogramming/c-basic-syntax.html）</a></p>
+</blockquote>
+<p>一般呢，还要尽可能<strong>避免使用以下划线开头的标识符</strong>，通常下划线开头的标识符只要不与 C 语言关键字冲突就是合法的，然而，往往有一些下划线开头的标识符会被编译器用于扩展</p>
+<h3 id="2-3-赋值"><a class="header-anchor" href="#2-3-赋值">¶</a>2.3. 赋值</h3>
+<p>定义了变量之后，我们往往需要把值存到它们所表示的存储空间里，这便是一个<strong>赋值</strong>过程</p>
+<p><strong>变量一定要先声明，后使用，编译器需要先看到变量声明</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> d;   <span class="comment">// 声明</span></span><br><span class="line">d = <span class="number">0</span>;   <span class="comment">// 赋值</span></span><br><span class="line">d += <span class="number">1</span>;   <span class="comment">// 使用--自增</span></span><br></pre></td></tr></table></figure>
+<p>当然变量的定义和赋值也可以一步完成，这被称为变量的<strong>初始化</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> d = <span class="number">0</span>;</span><br><span class="line">d += <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>变量的<strong>最小存储单位是字节</strong>，在 C 语言中<code>char</code>类型占1字节，其他的类型所占用的字节数在不同平台上有不同的规定</p>
+<h3 id="2-4-表达式"><a class="header-anchor" href="#2-4-表达式">¶</a>2.4. 表达式</h3>
+<p>变量和常量都可以参与各种运算，比如：加减乘除，而参与这些运算的常量或者变量就被称为<strong>操作数</strong></p>
+<p>将常量、变量通过运算组合在一起，可以形成表达式，比如：x + y、a * b - 2</p>
+<p><strong>任何表达式都有值和类型两个基本属性</strong></p>
+<p>其实这是由于表达式都会通过运算得到结果，而结果会是一个确定的值，因而自然会有值和类型</p>
+<p>在 C 语言当中，整数的除法既不是Floor也不是Ceiling，无论正负，一律去掉小数部分</p>
+<h3 id="2-5-字符类型和字符串编码"><a class="header-anchor" href="#2-5-字符类型和字符串编码">¶</a>2.5. 字符类型和字符串编码</h3>
+<p>字符常量或字符型变量也可以当作整数参与运算</p>
+<p>这是因为在计算机的内部，这些字符其实也是使用数字表示的，每个字符在计算机内部有一个整数与之对应，而这就是<strong>字符编码</strong></p>
+<p><strong>目前最常用的是ASCII码（American Standard Code for Information Interchange）</strong></p>
+<p>ASCII码的取值范围是0~127，其中包含一些不可见字符和空白字符</p>
+<p><strong>‘0’的ASCII码是48，’\0’的ASCII码是0</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Minos</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/23/Linux%20C%20%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/">http://example.com/2023/06/23/Linux%20C%20%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">樱花盛开的海港</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C%E8%AF%AD%E8%A8%80/">C语言</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306262202341.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/24/React%E6%96%B0%E8%B5%B7%E7%82%B9%EF%BC%88%E4%B8%80%EF%BC%89/" title="React新起点（一）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306242348104.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">React新起点（一）</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/18/JNI%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="JNI 学习笔记（一）"><img class="cover" src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306181716728.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JNI 学习笔记（一）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minos</div><div class="author-info__description">尽情享用此刻的休闲时光~~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Linux C 编程（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">1. 程序基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1. 基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E7%A8%8B%E5%BA%8F%E8%B0%83%E8%AF%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2. 程序调试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bug%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">Bug的分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3. 第一个程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B8%B8%E9%87%8F%E3%80%81%E5%8F%98%E9%87%8F%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">2. 常量、变量和表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%B8%B8%E9%87%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1. 常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2. 变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E8%B5%8B%E5%80%BC"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3. 赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4. 表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5. 字符类型和字符串编码</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/24/React%E6%96%B0%E8%B5%B7%E7%82%B9%EF%BC%88%E4%B8%80%EF%BC%89/" title="React新起点（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306242348104.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React新起点（一）"/></a><div class="content"><a class="title" href="/2023/06/24/React%E6%96%B0%E8%B5%B7%E7%82%B9%EF%BC%88%E4%B8%80%EF%BC%89/" title="React新起点（一）">React新起点（一）</a><time datetime="2023-06-24T15:46:39.270Z" title="发表于 2023-06-24 23:46:39">2023-06-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/23/Linux%20C%20%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" title="Linux C 编程（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306262202341.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux C 编程（一）"/></a><div class="content"><a class="title" href="/2023/06/23/Linux%20C%20%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" title="Linux C 编程（一）">Linux C 编程（一）</a><time datetime="2023-06-22T16:53:52.244Z" title="发表于 2023-06-23 00:53:52">2023-06-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/18/JNI%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="JNI 学习笔记（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306181716728.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JNI 学习笔记（一）"/></a><div class="content"><a class="title" href="/2023/06/18/JNI%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="JNI 学习笔记（一）">JNI 学习笔记（一）</a><time datetime="2023-06-18T09:04:34.821Z" title="发表于 2023-06-18 17:04:34">2023-06-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（九）—— 枚举与模式匹配（下）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306052330520.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rust 探索（九）—— 枚举与模式匹配（下）"/></a><div class="content"><a class="title" href="/2023/06/05/Rust%20%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%20%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D%EF%BC%88%E4%B8%8B%EF%BC%89/" title="Rust 探索（九）—— 枚举与模式匹配（下）">Rust 探索（九）—— 枚举与模式匹配（下）</a><time datetime="2023-06-05T15:29:49.246Z" title="发表于 2023-06-05 23:29:49">2023-06-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="机器学习笔记（一）"><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202306102022416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="机器学习笔记（一）"/></a><div class="content"><a class="title" href="/2023/06/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" title="机器学习笔记（一）">机器学习笔记（一）</a><time datetime="2023-06-02T15:46:51.163Z" title="发表于 2023-06-02 23:46:51">2023-06-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Minos</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
