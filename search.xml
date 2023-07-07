@@ -3049,4 +3049,44 @@ c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z'/></svg><
         <tag>C语言</tag>
       </tags>
   </entry>
+  <entry>
+    <title>自定义View（一）—— 坐标系</title>
+    <url>/2023/07/07/%E8%87%AA%E5%AE%9A%E4%B9%89View%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%20%E5%9D%90%E6%A0%87%E7%B3%BB/</url>
+    <content><![CDATA[<h1>自定义View（一）—— 坐标系</h1>
+<h2 id="1-坐标系"><a class="header-anchor" href="#1-坐标系">¶</a>1. 坐标系</h2>
+<h3 id="1-1-数学的坐标系和屏幕坐标系"><a class="header-anchor" href="#1-1-数学的坐标系和屏幕坐标系">¶</a>1.1. 数学的坐标系和屏幕坐标系</h3>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307032340460.png" alt="image-20230703234028826" style="zoom:67%;" />
+<p>在数学当中，我们常见的坐标系是如上图这样，x轴和y轴分别自左至右和自下而上延伸，角度是以逆时针方向为正</p>
+<p>但是Android的屏幕和这会有一些区别</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307040011188.png" alt="image-20230704001143588" style="zoom:67%;" />
+<p>在Android设备的屏幕上，x轴和y轴是分别向右和向下的，设备屏幕的左上角是坐标系的<strong>坐标原点</strong>，角度以顺时针旋转方向为正</p>
+<h3 id="1-2-View的坐标系"><a class="header-anchor" href="#1-2-View的坐标系">¶</a>1.2. View的坐标系</h3>
+<p><code>View</code>的坐标系是相对于它的父级而言的</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307042341262.png" alt="image-20230704234121119" style="zoom:80%;" />    
+<p><code>top</code>、<code>bottom</code>、<code>left</code>、<code>right</code>分别是与<code>View</code>的位置表示相关的概念，描述的是其在父级中的<strong>相对位置</strong></p>
+<blockquote>
+<p>The geometry of a view is that of a rectangle. A view has a location, expressed as a pair of <em>left</em> and <em>top</em> coordinates, and two dimensions, expressed as a width and a height. The unit for location and dimensions is the pixel.</p>
+</blockquote>
+<p><code>View</code>实质上表述的是一个<strong>矩形范围</strong>，关于其位置的确定，使用的是其左上角的坐标，就像这里的<code>top</code>，<code>left</code>，在该坐标系下，确定其左上角的坐标位置，其实再配合另外2个维度，即宽、高就可以确定这个<code>View</code>具体表示的范围了</p>
+<p>通过对于<code>View</code>对象调用<code>getLeft()</code>和<code>getTop()</code>可以得到<code>left</code>和<code>top</code>的值，即<code>View</code>（矩形）的坐标（x, y），需要注意的是，返回的数值是相对于父级<code>View</code>的，并且<strong>默认单位为像素</strong></p>
+<p>除此以外，<code>View</code>还提供了<code>getRight()</code>和<code>getBottom()</code>方法来获取所谓<code>right</code>和<code>bottom</code>的数值，其实<code>right = left + width</code>而<code>bottom = top + height</code>，只是简化了部分计算，可能更加直观一些，在实际的自定义<code>View</code>的编码过程中，这些概念是非常常用的，也经常作为一些方法的参数被用到，因此熟悉这些概念很有必要</p>
+<h3 id="1-3-MotionEvent中的坐标"><a class="header-anchor" href="#1-3-MotionEvent中的坐标">¶</a>1.3. MotionEvent中的坐标</h3>
+<p>在处理Android设备上的各种触屏事件，我们不免会接触到一个<code>MotionEvent</code>类，它用于描述移动（通常接触屏幕的是手指），通过一些参数来描述这样的事件</p>
+<blockquote>
+<p>Object used to report movement (mouse, pen, finger, trackball) events. Motion events may hold either absolute or relative movements and other data, depending on the type of device.</p>
+</blockquote>
+<p>我们的手指接触到设备的屏幕，就会产生事件，而整个设备的屏幕就是一个大的坐标系，而我们手指接触的位置便是这个坐标系中的某个特定的点，对应的便是一个<code>MotionEvent</code>对象</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307072320262.png" alt="image-20230707231946669" style="zoom: 80%;" />
+<p><code>getX()</code>和<code>getRawX()</code>均是<code>MotionEvent</code>对象的方法，前者获取的是当前事件对象与当前<code>View</code>的左边界的水平相对距离，而后者获取的是事件对象与屏幕左边界的水平距离</p>
+<p>当然，对应地也有<code>getY()</code>和<code>getRawY()</code></p>
+<p>前者可以看做是将事件所在<code>View</code>以左上角为左边原点，作一个坐标系，将<code>MotionEvent</code>对象的位置表示出来，而后者则是将整个屏幕作为坐标系，如果将<code>MotionEvent</code>看做一个不计大小的<code>View</code>，那么正好可以分别对应<code>View</code>的坐标系与屏幕坐标系来看待</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307072329864.png" alt="image-20230707232916681" style="zoom: 80%;" />
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
 </search>
