@@ -3089,4 +3089,101 @@ c-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z'/></svg><
         <tag>Android</tag>
       </tags>
   </entry>
+  <entry>
+    <title>自定义View（二）—— 颜色基础</title>
+    <url>/2023/07/09/%E8%87%AA%E5%AE%9A%E4%B9%89View%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%20%E9%A2%9C%E8%89%B2%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1>自定义View（二）—— 颜色基础</h1>
+<h2 id="1-颜色类型"><a class="header-anchor" href="#1-颜色类型">¶</a>1. 颜色类型</h2>
+<p>在进行自定义View的时候，熟悉Android中的颜色相关的概念，能够帮助我们快速配置UI，也有更多与设计师battle的资本</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">颜色模式</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ARGB8888</td>
+<td>四通道高精度(32位)</td>
+</tr>
+<tr>
+<td style="text-align:left">ARGB4444</td>
+<td>四通道低精度(16位)</td>
+</tr>
+<tr>
+<td style="text-align:left">RGB565</td>
+<td><strong>屏幕默认模式</strong>(16位)</td>
+</tr>
+<tr>
+<td style="text-align:left">Alpha8</td>
+<td>仅有透明通道(8位)</td>
+</tr>
+</tbody>
+</table>
+<p>字母（比如A、R、G、B）表示<strong>颜色通道</strong>，而数字（比如8、8、8、8）这些对应的是每个通道的<strong>位数</strong></p>
+<p>举个例子，ARGB8888这种颜色模式，其中ARGB代表四个通道，首先是我们比较熟悉的RGB，代表红、绿、蓝三种颜色通道，另外又加上<strong>Alpha通道</strong>，用以调节透明度，后面的4个8其实就是代表这里的4个通道都是使用8个二进制位进行表示的，每个的范围是0~255</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">通道</th>
+<th style="text-align:left">解释</th>
+<th style="text-align:left">0(0x00)</th>
+<th style="text-align:left">255(0xff)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">A(Alpha)</td>
+<td style="text-align:left">透明度</td>
+<td style="text-align:left">透明</td>
+<td style="text-align:left">不透明</td>
+</tr>
+<tr>
+<td style="text-align:left">R(Red)</td>
+<td style="text-align:left">红色</td>
+<td style="text-align:left">无色</td>
+<td style="text-align:left">红色</td>
+</tr>
+<tr>
+<td style="text-align:left">G(Green)</td>
+<td style="text-align:left">绿色</td>
+<td style="text-align:left">无色</td>
+<td style="text-align:left">绿色</td>
+</tr>
+<tr>
+<td style="text-align:left">B(Blue)</td>
+<td style="text-align:left">蓝色</td>
+<td style="text-align:left">无色</td>
+<td style="text-align:left">蓝色</td>
+</tr>
+</tbody>
+</table>
+<p>ARGB4444和ARGB8888是相对而言比较常用的颜色模式，但是<strong>在Android设备上默认是RGB565</strong></p>
+<h2 id="2-颜色的使用"><a class="header-anchor" href="#2-颜色的使用">¶</a>2. 颜色的使用</h2>
+<h3 id="2-1-直接在代码中使用"><a class="header-anchor" href="#2-1-直接在代码中使用">¶</a>2.1. 直接在代码中使用</h3>
+<p>在Java或Kotlin的代码中可以直接使用颜色，主要通过<code>Color</code>类相关的API进行转换</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> color = Color.BLUE            <span class="comment">// 使用Color类预置的常量</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> color = Color.parseColor(<span class="string">&quot;#eeeeee&quot;</span>)    <span class="comment">// 十六进制字符串转换</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> color = Color.rgb(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>)    <span class="comment">// 根据通道赋值</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> color = <span class="number">0x00bbaacc</span>       <span class="comment">// 直接输入int值，因为颜色值的本质也是int</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-使用资源进行引用"><a class="header-anchor" href="#2-2-使用资源进行引用">¶</a>2.2. 使用资源进行引用</h3>
+<p>主要借助<code>res/values/color.xml</code>进行定义</p>
+<img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307090955995.png" alt="image-20230709095513409" style="zoom: 80%;" />
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">&quot;black&quot;</span>&gt;</span>#FF000000<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">&quot;white&quot;</span>&gt;</span>#FFFFFFFF<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>直接使用<code>&lt;color&gt;</code>定义一个颜色项，标签中间是颜色的十六进制字符串</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#f00            //低精度  其实就是RGB444，无透明通道，相当于#ff0000</span></span><br><span class="line"><span class="comment">#af00           //低精度  带有透明通道 ARGB4444</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#ff0000         //高精度  RGB888，没有透明通道</span></span><br><span class="line"><span class="comment">#aaff0000       //高精度  ARGB8888 </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> color = ContextCompat.getColor(<span class="keyword">this</span>, R.color.black)   <span class="comment">// 直接引用进行使用</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307091026295.png" alt="image-20230709102657601"></p>
+<p>使用这种方式还可以在IDE的左侧直接预览颜色，也便于资源的复用，减少错误的发生</p>
+<p><img src="https://cdn.jsdelivr.net/gh/minos-chertsfield/PicAbout/img/202307091018107.png" alt="image-20230709101841466"></p>
+<p>在其他布局或资源文件中可以使用类似<code>@color/&lt;颜色名&gt;</code>的方式进行颜色的引用</p>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
 </search>
